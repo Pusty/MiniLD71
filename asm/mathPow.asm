@@ -1,3 +1,4 @@
+CPU 8086
 %ifndef MATH_POW
     %define MATH_POW
 pow16: ; ax ^ bx = ax (bx>=0)
@@ -9,7 +10,12 @@ pow16: ; ax ^ bx = ax (bx>=0)
 		sub dx, word 1
 		cmp dx, word 0
 		je .end0
-		imul ax, cx
+		
+			;imul ax, cx
+		push dx
+		imul cx ;same as above but for 8086
+		pop dx
+		
 	jmp .loop
 	.end1:
 		mov ax, word 1

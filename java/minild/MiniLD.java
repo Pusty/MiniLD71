@@ -90,7 +90,7 @@ public class MiniLD {
     public static final int entityLength = 6; //Word length of a Entity
     public static int[] entityData = new int[entityLength*entityAmount]; //EntityData Array
 
-    public static boolean freeze = true; //freeze for first input
+    public static boolean freeze = false; //freeze for first input
     
     public static int coins = 0;
     public static int animTick = 0; //animation ticks
@@ -106,6 +106,10 @@ public class MiniLD {
 	    	drawImage(screen, 0, 0);
 	    	flip();
 	    	while(freeze) {
+	    		keyPressed = checkKey(0);
+	    		keyState = checkKey(1)!=0;
+	    		if(keyPressed != 0x01 && keyState)
+	    			freeze=false;
     	    	sleep(100);
 	    	}
     	}
@@ -131,6 +135,10 @@ public class MiniLD {
     	    		drawImage(screen, 0, 0);
     	    		flip();
 	    	    	while(freeze) {
+	    	    		keyPressed = checkKey(0);
+	    	    		keyState = checkKey(1)!=0;
+	    	    		if(keyPressed != 0x01 && keyState)
+	    	    			freeze=false;
 	        	    	sleep(100);
 	    	    	}
     	    	}
@@ -158,7 +166,9 @@ public class MiniLD {
     		}else
     			velY=1;
     		
-//    		keyHandle();
+    		keyPressed = checkKey(0);
+    		keyState = checkKey(1)!=0;
+    		keyHandle();
 
     		velX = velXP;
     		
@@ -444,7 +454,8 @@ public class MiniLD {
     	printString(b);
     	printInt(7);
     	printString(b2);
-    	printInt(mapIndex+1);
+//    	mapIndex+1
+    	printInt(1002);
     	
     }
     public static void keyHandle() {
@@ -480,7 +491,7 @@ public class MiniLD {
     	String[] ar = new String[2];
     	ar[0] = System.getProperty("user.dir")+"/bin/minild/MiniLD.class";
     	ar[1] = System.getProperty("user.dir")+"/minild.asm";
-    	CompilerF0xC.addImpl(new KernelKey("keyPressed", "keyState", "keyHandle"));
+//    	CompilerF0xC.addImpl(new KernelKey("keyPressed", "keyState", "keyHandle"));
     	CompilerF0xC.addNoMask("keyHandle");
     	CompilerF0xC.setDebug(false);
     	CompilerF0xC.setCutter(true);

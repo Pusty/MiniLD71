@@ -125,20 +125,34 @@ public class Real {
 					write("ret");
 					break;
 				case "ihandle":
-					write("push word "+args[0]);
+					//write("push word "+args[0]);
+					write("mov ax, "+args[0]);
+					write("push ax");
 					break;
 				case "zhandle":
-					write("push word 0");
+				//	write("push word 0");
+					write("mov ax, 0");
+					write("push ax");
 					break;
 				case "lhandle":
-					write("push dword "+args[0]);
+				//	write("push dword "+args[0]);
+					write("mov eax, "+args[0]);
+					write("push eax");
 					break;
 				case "loadVar":
 					Object obj = vars.get(args[0]);
 					if(obj == null || obj instanceof Integer || obj instanceof Character || obj instanceof Short || obj instanceof Boolean || obj instanceof Byte)
-						write("push word ["+args[0]+"]");
+//						write("push word ["+args[0]+"]");
+					{
+						write("mov ax, ["+args[0]+"]");
+						write("push ax");
+					}
 					else
-						write("push word "+args[0]);
+					{
+						write("mov ax, "+args[0]);
+						write("push ax");
+					}
+					//	write("push word "+args[0]);
 					break;
 				case "saveVar":
 					write("pop ax");
@@ -229,7 +243,9 @@ public class Real {
 						write("mov [si], bx");
 					}else if(args[0].equalsIgnoreCase("getValue")) {
 						write("pop si");
-						write("push word [si]");
+						write("mov ax, [si]");
+						write("push ax");
+						//write("push word [si]");
 					}else
 						throw new Error("Pointer error, unknown cmd "+args[0]);
 					break;
@@ -251,14 +267,18 @@ public class Real {
 					write("mov [stack_"+args[1]+"+"+Integer.parseInt(args[0])*+RegSize.size(RegSize.INT)+"], dx");
 					break;
 				case "iload":
-					write("push word [stack_"+args[1]+"+"+Integer.parseInt(args[0])*+RegSize.size(RegSize.INT)+"]");
+				//	write("push word [stack_"+args[1]+"+"+Integer.parseInt(args[0])*+RegSize.size(RegSize.INT)+"]");
+					write("mov ax, [stack_"+args[1]+"+"+Integer.parseInt(args[0])*+RegSize.size(RegSize.INT)+"]");
+					write("push ax");
 					break;
 				case "lstore":
 					write("pop edx");
 					write("mov [stack_"+args[1]+"+"+Integer.parseInt(args[0])*+RegSize.size(RegSize.LONG)+"], edx");
 					break;
 				case "lload":
-					write("push dword [stack_"+args[1]+"+"+Integer.parseInt(args[0])*+RegSize.size(RegSize.LONG)+"]");
+					//write("push dword [stack_"+args[1]+"+"+Integer.parseInt(args[0])*+RegSize.size(RegSize.LONG)+"]");
+					write("mov eax, [stack_"+args[1]+"+"+Integer.parseInt(args[0])*+RegSize.size(RegSize.LONG)+"]");
+					write("push eax");
 					break;
 				case "conv":
 					if(args[0].equalsIgnoreCase("int")) {
@@ -337,7 +357,9 @@ public class Real {
 		write("mul bx");
 		write("add si, ax");
 		//write("mov cx, [si]");
-		write("push "+RegSize.getInt("word")+" [si]");
+		write("mov ax, [si]");
+		write("push ax");
+		//write("push "+RegSize.getInt("word")+" [si]");
 	}
 	private void storeToArray() {
 		write("pop cx");

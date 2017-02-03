@@ -46,6 +46,7 @@ public class Forge {
 		
 		realString.add("org 0x7E00"); //Kernel start
 		realString.add("bits 16");
+		realString.add("CPU 8086");
 		
 		for(ImplClass cl:CompilerF0xC.implClasses) {
 			cl.pre(this);

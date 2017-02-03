@@ -37,10 +37,20 @@ drawImage: ;di = position of image, ax = xpos, bx = ypos
 	push cx
 	push dx
 		mov cx, [di] ; sizex = 2nd byte
-		shr cx, 8
+		;shr cx, 8
+			push ax
+			mov ax, cx
+			mov cl, 8
+			shr ax, cl
+			mov cx, ax
+			pop ax
 		inc di
 		mov dx, [di] ; sizey = 3rd byte
-		shr dx, 8	
+		;shr dx, 8
+			push cx
+			mov cl, 8
+			shr dx, cl
+			pop cx
 		inc di
 		inc di
 		.yloop: ;start yaxisloop
@@ -142,7 +152,10 @@ writeImageLine16:
 			jl  .ec2
 			
 			mov al, [di]
-			shr al, 4
+			push cx
+			mov cl, 4
+			shr al, cl
+			pop cx
 			and al, 0x0F ;reads the last 4 bits
 			cmp al, 0x0F
 			je .ec2

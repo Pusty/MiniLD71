@@ -2,12 +2,20 @@
     %define SLEEP
 	
 sleep:; input si: delay in 1.024*ms
-	xor eax,eax;clear eax for using it as nanosec storeage
+	xor ax,ax ;clear eax for using it as nanosec storeage
 	mov ax,si
-	shl eax,10
+		push cx
+		mov cl, 10
+		shl ax, cl
+		pop cx
+	;shl eax,10
 	;eax=2^10*si
 	mov dx,ax
-	shr eax,16
+	;shr eax,16
+		push cx
+		mov cl, 16
+		shr ax, cl
+		pop cx
 	mov cx,ax
 	;dx,cx=eax
 	mov ah, 86h
